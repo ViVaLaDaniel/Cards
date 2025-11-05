@@ -8,7 +8,7 @@ const sampleProduct: Product = {
   name: "Мишка 'Плюшик'",
   price: 1299,
   currency: '₽',
-  imageUrl: '/my-toy.png',
+  imageUrl: '/src/assets/my-toy.png',
   description: 'Невероятно мягкий и уютный плюшевый мишка, который станет лучшим другом для вашего ребенка. Сделан из гипоаллергенных материалов.',
   colors: [
     { name: 'Brown', class: 'bg-yellow-800' },
