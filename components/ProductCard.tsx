@@ -10,7 +10,6 @@ interface StarRatingProps {
   maxStars?: number;
 }
 
-// Helper component defined outside the main component to prevent re-creation
 const StarRating: React.FC<StarRatingProps> = ({ rating, maxStars = 5 }) => {
   const fullStars = Math.floor(rating);
   const halfStar = rating % 1 !== 0;
@@ -37,16 +36,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden max-w-sm w-full font-sans">
-      <div className="relative">
-        <img className="w-full h-72 object-cover" src={product.imageUrl} alt={product.name} />
+    <div className="bg-white rounded-2xl overflow-hidden max-w-sm w-full font-sans transform-style-preserve-3d transition-transform duration-500">
+      <div className="relative transform-style-preserve-3d" style={{ transform: 'translateZ(40px)' }}>
+        <img className="w-full h-72 object-cover rounded-t-2xl" src={product.imageUrl} alt={product.name} />
         <button 
           onClick={() => setIsFavorite(!isFavorite)}
-          className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors duration-300"
+          className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-all duration-300 transform hover:scale-110"
           aria-label="Add to favorites"
         >
           <svg 
-            className={`w-6 h-6 transition-all ${isFavorite ? 'text-red-500' : 'text-gray-500'}`} 
+            className={`w-6 h-6 transition-all duration-300 ${isFavorite ? 'text-red-500 scale-110' : 'text-gray-500'}`} 
             fill={isFavorite ? 'currentColor' : 'none'}
             stroke="currentColor" 
             viewBox="0 0 24 24"
@@ -56,20 +55,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </button>
       </div>
 
-      <div className="p-6">
-        <div className="flex justify-between items-start">
+      <div className="p-6 transform-style-preserve-3d" style={{ transform: 'translateZ(20px)' }}>
+        <div className="flex justify-between items-start" style={{ transform: 'translateZ(30px)' }}>
           <h2 className="text-2xl font-bold text-gray-800">{product.name}</h2>
           <p className="text-3xl font-extrabold text-amber-900">{product.price}<span className="text-2xl font-bold">{product.currency}</span></p>
         </div>
 
-        <div className="flex items-center mt-2">
+        <div className="flex items-center mt-2" style={{ transform: 'translateZ(25px)' }}>
           <StarRating rating={product.rating} />
           <span className="text-sm text-gray-500 ml-2">({product.reviewCount} отзывов)</span>
         </div>
 
-        <p className="text-gray-600 mt-4 text-sm leading-relaxed">{product.description}</p>
+        <p className="text-gray-600 mt-4 text-sm leading-relaxed" style={{ transform: 'translateZ(20px)' }}>{product.description}</p>
 
-        <div className="mt-6">
+        <div className="mt-6" style={{ transform: 'translateZ(35px)' }}>
           <h3 className="text-sm font-semibold text-gray-700">Цвет: <span className="font-normal">{selectedColor.name}</span></h3>
           <div className="flex items-center space-x-3 mt-2">
             {product.colors.map((color) => (
@@ -83,7 +82,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         </div>
 
-        <button className="w-full mt-8 bg-pink-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-pink-600 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-pink-300 transition-all duration-300 ease-in-out flex items-center justify-center space-x-2">
+        <button className="w-full mt-8 bg-pink-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-pink-600 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-pink-300 transition-all duration-300 ease-in-out flex items-center justify-center space-x-2 transform hover:scale-105" style={{ transform: 'translateZ(50px)' }}>
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
           <span>Добавить в корзину</span>
         </button>

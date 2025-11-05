@@ -1,5 +1,6 @@
 import React from 'react';
 import ProductCard from './components/ProductCard';
+import ParallaxCard from './components/ParallaxCard';
 import { Product } from './types';
 
 const sampleProduct: Product = {
@@ -22,8 +23,10 @@ const sampleProduct: Product = {
 
 const App: React.FC = () => {
   return (
-    <main className="min-h-screen w-full flex items-center justify-center p-4">
-      <ProductCard product={sampleProduct} />
+    <main className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-amber-100 to-pink-200">
+       <ParallaxCard>
+        <ProductCard product={sampleProduct} />
+      </ParallaxCard>
     </main>
   );
 };
