@@ -1,3 +1,8 @@
+export interface Color {
+  name: string;
+  class: string;
+}
+
 export interface Product {
   id: number;
   name: string;
@@ -5,7 +10,7 @@ export interface Product {
   currency: string;
   imageUrl: string;
   description: string;
-  colors: { name: string; class: string }[];
+  colors: Color[];
   rating: number;
   reviewCount: number;
 }

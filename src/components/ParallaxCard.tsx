@@ -1,5 +1,11 @@
 import React, { useRef, useState, MouseEvent, useEffect } from 'react';
 
+// Constants for parallax effect
+const PERSPECTIVE = '1000px';
+const SCALE = '1.05';
+const ROTATION_STRENGTH_DESKTOP = 10; // Higher value = more rotation
+const ROTATION_STRENGTH_MOBILE = 2.5; // Lower value for subtle effect on mobile
+
 interface ParallaxCardProps {
   children: React.ReactNode;
 }
@@ -10,17 +16,22 @@ const ParallaxCard: React.FC<ParallaxCardProps> = ({ children }) => {
   const [permissionNeeded, setPermissionNeeded] = useState(false);
   const isMobile = typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1;
 
+  // Helper to generate the transform style
+  const getTransformStyle = (rotateX: number, rotateY: number) => ({
+    transform: `perspective(${PERSPECTIVE}) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(${SCALE}, ${SCALE}, ${SCALE})`,
+    transition: 'transform 0.1s linear',
+  });
+
   useEffect(() => {
     const addOrientationListener = () => {
        window.addEventListener('deviceorientation', handleOrientation);
     };
 
     if (isMobile && window.DeviceOrientationEvent) {
+      // For iOS 13+, we need to request permission to access device orientation
       if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
-        // iOS 13+ requires explicit permission
         setPermissionNeeded(true);
       } else {
-        // Android and older iOS devices
         addOrientationListener();
       }
     }
@@ -56,14 +67,10 @@ const ParallaxCard: React.FC<ParallaxCardProps> = ({ children }) => {
     const clampedBeta = Math.max(-45, Math.min(45, beta));
     const clampedGamma = Math.max(-45, Math.min(45, gamma));
 
-    // Map device tilt to card rotation. Adjust sensitivity by changing the divisor.
-    const rotateX = clampedBeta / 2.5; 
-    const rotateY = clampedGamma / 2.5;
+    const rotateX = clampedBeta / ROTATION_STRENGTH_MOBILE;
+    const rotateY = clampedGamma / ROTATION_STRENGTH_MOBILE;
 
-    setStyle({
-      transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`,
-      transition: 'transform 0.1s linear',
-    });
+    setStyle(getTransformStyle(rotateX, rotateY));
   };
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
@@ -75,19 +82,16 @@ const ParallaxCard: React.FC<ParallaxCardProps> = ({ children }) => {
     const x = clientX - left;
     const y = clientY - top;
 
-    const rotateX = -((y / height) * 2 - 1) * 10;
-    const rotateY = ((x / width) * 2 - 1) * 10;
+    const rotateX = -((y / height) * 2 - 1) * ROTATION_STRENGTH_DESKTOP;
+    const rotateY = ((x / width) * 2 - 1) * ROTATION_STRENGTH_DESKTOP;
 
-    setStyle({
-      transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`,
-      transition: 'transform 0.1s ease-out',
-    });
+    setStyle(getTransformStyle(rotateX, rotateY));
   };
 
   const handleMouseLeave = () => {
     if (isMobile) return;
     setStyle({
-      transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
+      transform: `perspective(${PERSPECTIVE}) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`,
       transition: 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
     });
   };
