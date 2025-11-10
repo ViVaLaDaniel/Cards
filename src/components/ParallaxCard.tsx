@@ -48,12 +48,12 @@ const ParallaxCard: React.FC<ParallaxCardProps> = ({ children }) => {
             setPermissionNeeded(false);
             window.addEventListener('deviceorientation', handleOrientation);
         } else {
-            alert('Разрешение на отслеживание ориентации устройства не предоставлено.');
+            alert('Permission for device orientation was not granted.');
             setPermissionNeeded(false);
         }
     } catch(error) {
         console.error("Error requesting device orientation permission:", error);
-        alert('Ваше устройство или браузер не поддерживают эту функцию.');
+        alert('Your device or browser does not support this feature.');
         setPermissionNeeded(false);
     }
   };
@@ -106,12 +106,12 @@ const ParallaxCard: React.FC<ParallaxCardProps> = ({ children }) => {
     >
       {permissionNeeded && (
          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm rounded-2xl p-4 text-center">
-            <p className="text-white text-lg font-medium mb-4">Нажмите, чтобы включить 3D-эффект на телефоне</p>
+            <p className="text-white text-lg font-medium mb-4">Tap to enable the 3D effect on your phone</p>
             <button
               onClick={requestDeviceOrientationPermission}
               className="bg-pink-500 text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:bg-pink-600 focus:outline-none focus:ring-4 focus:ring-pink-300 transition-all duration-300"
             >
-              Активировать
+              Activate
             </button>
          </div>
       )}

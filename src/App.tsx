@@ -11,7 +11,7 @@ const App: React.FC = () => {
   const rightReviews = sampleReviews.slice(2);
 
   return (
-    <main className="min-h-screen w-full flex justify-center p-4 md:p-8">
+    <main className="min-h-screen w-full flex justify-center px-4 md:px-8 pt-16">
       <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row justify-center items-center lg:items-start gap-8">
         
         {/* --- DESKTOP-ONLY Left Column --- */}
@@ -22,7 +22,7 @@ const App: React.FC = () => {
         </div>
 
         {/* --- Center Product Card (for all sizes) --- */}
-        <div className="w-full md:w-1/2 lg:w-1/3">
+        <div className="w-full md:w-1/2 lg:w-1/3 flex justify-center">
           <ParallaxCard>
             <ProductCard product={sampleProduct} />
           </ParallaxCard>
