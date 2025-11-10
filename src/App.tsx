@@ -1,6 +1,5 @@
 import React from "react";
 import ProductCard from "./components/ProductCard";
-import ParallaxCard from "./components/ParallaxCard";
 import { sampleProduct } from "./data/product";
 import ReviewCard from "./components/ReviewCard";
 import { sampleReviews } from "./data/reviews";
@@ -23,9 +22,7 @@ const App: React.FC = () => {
 
         {/* --- Center Product Card (for all sizes) --- */}
         <div className="w-full md:w-1/2 lg:w-1/3 flex justify-center">
-          <ParallaxCard>
-            <ProductCard product={sampleProduct} />
-          </ParallaxCard>
+          <ProductCard product={sampleProduct} />
         </div>
 
         {/* --- DESKTOP-ONLY Right Column --- */}
