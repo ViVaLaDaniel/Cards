@@ -96,6 +96,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <div className="flex justify-between items-start translate-z-30">
             <h2 className="text-2xl font-bold text-gray-800">{product.name}</h2>
             <p className="text-3xl font-extrabold text-amber-900">
+              <span className="text-red-500 line-through text-4xl mr-2">75€</span>
               {product.price}
               <span className="text-2xl font-bold">{product.currency}</span>
             </p>
