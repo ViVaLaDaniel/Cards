@@ -42,7 +42,7 @@ const Header: React.FC = () => {
         </h1>
         <nav className="hidden md:flex space-x-4">
           <Link to="/" className="text-white font-bold hover:text-gray-400">Home</Link>
-          <Link to="/products" className="text-white font-bold hover:text-gray-400">Products</Link>
+          <Link to="/blog" className="text-white font-bold hover:text-gray-400">Blog</Link>
           <Link to="/about" className="text-white font-bold hover:text-gray-400">About</Link>
           <Link to="/contact" className="text-white font-bold hover:text-gray-400">Contact</Link>
         </nav>
@@ -55,7 +55,7 @@ const Header: React.FC = () => {
       <div className={`md:hidden mt-4 transition-all duration-500 ease-in-out ${isMenuOpen ? 'max-h-screen opacity-100 bg-gray-800/80' : 'max-h-0 opacity-0'}`}>
         <nav className="flex flex-col space-y-2">
           <Link to="/" className="text-white font-bold hover:text-gray-400" onClick={() => setIsMenuOpen(false)}>Home</Link>
-          <Link to="/products" className="text-white font-bold hover:text-gray-400" onClick={() => setIsMenuOpen(false)}>Products</Link>
+          <Link to="/blog" className="text-white font-bold hover:text-gray-400" onClick={() => setIsMenuOpen(false)}>Blog</Link>
           <Link to="/about" className="text-white font-bold hover:text-gray-400" onClick={() => setIsMenuOpen(false)}>About</Link>
           <Link to="/contact" className="text-white font-bold hover:text-gray-400" onClick={() => setIsMenuOpen(false)}>Contact</Link>
         </nav>
