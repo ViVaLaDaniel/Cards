@@ -1,3 +1,5 @@
+import "./styles/snow.css";
+import "./styles/tailwind.css";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
