@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, MouseEvent, KeyboardEvent } from 'react';
 import { Product } from '../types';
 import StarRating from './StarRating';
 
@@ -12,14 +12,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const nextImage = (e: React.MouseEvent) => {
+  const nextImage = (e: MouseEvent) => {
     e.stopPropagation();
     setCurrentImageIndex(
       (prevIndex) => (prevIndex + 1) % product.imageUrl.length,
     );
   };
 
-  const prevImage = (e: React.MouseEvent) => {
+  const prevImage = (e: MouseEvent) => {
     e.stopPropagation();
     setCurrentImageIndex(
       (prevIndex) =>
@@ -54,17 +54,28 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    // Allow card expansion with Enter or Space key for accessibility
+    if (isMobile && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      setIsExpanded(!isExpanded);
+    }
+  };
+
   // Stop propagation on inner clicks to prevent the card from closing on mobile
-  const handleInnerClick = (e: React.MouseEvent) => {
+  const handleInnerClick = (e: MouseEvent) => {
     e.stopPropagation();
   };
 
   return (
     <div
-      className="bg-white rounded-2xl overflow-hidden max-w-sm w-full font-sans transform-style-preserve-3d transition-all duration-500 shadow-lg cursor-pointer"
+      role="button"
+      tabIndex={0}
+      className="bg-white rounded-2xl overflow-hidden max-w-sm w-full font-sans transform-style-preserve-3d transition-all duration-500 shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-pink-500"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
     >
       <div className="relative transform-style-preserve-3d translate-z-40">
         <img
@@ -77,7 +88,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="absolute inset-0 flex justify-between items-center px-4">
           <button
             onClick={prevImage}
-            className="bg-white/50 rounded-full p-2 hover:bg-white/80 transition"
+            className="bg-white/50 rounded-full p-3 hover:bg-white/80 transition"
+            aria-label="Previous image"
           >
             <svg
               className="w-6 h-6 text-gray-800"
@@ -96,7 +108,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </button>
           <button
             onClick={nextImage}
-            className="bg-white/50 rounded-full p-2 hover:bg-white/80 transition"
+            className="bg-white/50 rounded-full p-3 hover:bg-white/80 transition"
+            aria-label="Next image"
           >
             <svg
               className="w-6 h-6 text-gray-800"
@@ -116,15 +129,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
 
         {/* Dots */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 p-2">
           {product.imageUrl.map((_, index) => (
             <button
               key={index}
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 setCurrentImageIndex(index);
               }}
-              className={`w-3 h-3 rounded-full ${index === currentImageIndex ? 'bg-white' : 'bg-white/50'}`}
+              className={`w-4 h-4 rounded-full ${index === currentImageIndex ? 'bg-white' : 'bg-white/50'}`}
+              aria-label={`Go to image ${index + 1}`}
             ></button>
           ))}
         </div>
@@ -155,7 +170,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             setIsFavorite(!isFavorite);
           }}
           className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-all duration-300 transform hover:scale-110"
-          aria-label="Add to favorites"
+          aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
         >
           <svg
             className={`w-6 h-6 transition-all duration-300 ${isFavorite ? 'text-red-500 scale-110' : 'text-gray-500'}`}
