@@ -67,6 +67,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     e.stopPropagation();
   };
 
+  // Generate responsive image attributes
+  const currentImageUrl = product.imageUrl[currentImageIndex]; // e.g., '/images/WinterHead3.webp'
+  const imageBase = currentImageUrl.replace('/images/WinterHead', '/images/winterhead').replace('.webp', '');
+  const imageSrcSet = [
+    `${imageBase}_400px.webp 400w`,
+    `${imageBase}_800px.webp 800w`,
+    `${imageBase}_1200.webp 1200w`,
+  ].join(', ');
+
   return (
     <div
       role="button"
@@ -80,7 +89,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="relative transform-style-preserve-3d translate-z-40">
         <img
           className="w-full h-72 object-cover"
-          src={product.imageUrl[currentImageIndex]}
+          src={currentImageUrl}
+          srcSet={imageSrcSet}
+          sizes="(max-width: 640px) 90vw, 384px"
           alt={`${product.name} ${currentImageIndex + 1}`}
         />
 
