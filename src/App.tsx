@@ -13,10 +13,12 @@ const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import Analytics from './components/Analytics';
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
+      <Analytics />
       <div className="flex flex-col min-h-screen">
         <Snowflakes />
         <Header />
